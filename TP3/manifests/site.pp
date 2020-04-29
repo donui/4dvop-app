@@ -40,3 +40,20 @@ firewalld_service {'Allow http in the public Zone':
     zone    => 'public',
     service => 'http',
 }
+
+file_line { '/etc/nginx/conf.d/default.conf':
+  ensure => present,
+  path   => '/etc/nginx/conf.d/default.conf',
+  line   => '    listen       8080;',
+  match  => '    listen       80;',
+}
+
+service { 'nginx':
+  ensure => running,
+  enable => true,
+}
+
+service { 'haproxy':
+  ensure => running,
+  enable => true,
+}
